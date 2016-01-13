@@ -14,25 +14,34 @@ import javafx.scene.layout.VBox;
 
 
 public class Main extends Application {
-	
+	public static Main _instance;
 	private static Stage primaryStage;
 	private VBox root;
+        private HQController hqController;
+        
     private ObservableList<HeatExchanger> HeatExchangerData = FXCollections.observableArrayList();
 
     public ObservableList<HeatExchanger> getHeatExchangerData() {
         return HeatExchangerData;
     }
-	public static Stage getStage() { return primaryStage; }
+    
+    public HQController getHQController() {
+        return this.hqController;
+    }
+    
+    public static Stage getStage() { return primaryStage; }
 	
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+        public void start(Stage primaryStage) throws Exception {
+            Main._instance = this;
+            
 		this.primaryStage = primaryStage;
 		primaryStage.setTitle("SSAnalysis");
 		FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("HQ.fxml"));
         root = (VBox) loader.load();
-        HQController controller = loader.getController();
-        controller.setMain(this);
+        hqController = loader.getController();
+        hqController.setMain(this);
 		
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
